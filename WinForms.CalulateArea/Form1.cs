@@ -23,30 +23,48 @@ namespace WinForms.CalulateArea
 
         private void btnCircleArea_Click(object sender, EventArgs e)
         {
-            //input  รับค่าจาก Textboxชื่อ txtRadius  (แปลงชนิดข้อมูลเป็น Double)
-            double Radius = 0;
-            //Radius = Convert.ToDouble(txtRaduis.Text);
-            if (double.TryParse(txtRaduis.Text, out Radius) == false)
-            {
-                MessageBox.Show("กรอกข้อมูลไม่ถูกต้อง", "ฮ่วย Error!!");
-                txtRaduis.Focus();    //ให้มี Cursor ที่ Textbox
-                txtRaduis.SelectAll();  //ให้ Selected ข้อความใน Textbox
-                return;
-            }
-            //process คำนวณพื้นที่ สูตร  pi*r*r
-            double CircleArea = Math.PI * Math.Pow(Radius, 2);
-            //Math.PI  ให้ค่า Pi
-            //Math.Pow(x,y)   x ยกกำลัง y
-            //output  นำไปแสดงผลที่ lblResult
-            lblResult.Text = CircleArea.ToString("0.00");
-
-            txtRaduis.Focus();
-            txtRaduis.SelectAll();
+            displaycircle();
         }
 
         private void btnTriangleArea_Click(object sender, EventArgs e)
         {
+
+            tree2();
+        }
+
+        private void btnHexagonArea_Click(object sender, EventArgs e)
+        {
             
+            displayHexagon();
+            
+        }
+        public void displaycircle() //วงกลม
+            {
+    
+                if (!double.TryParse(txtRaduis.Text, out double Radius))
+             {
+                    MessageBox.Show("กรอกเป็นตัวเลขเท่านั้น", "Error");
+                    txtRaduis.Focus();   
+                    txtRaduis.SelectAll();  
+                    return;
+             }
+
+                double area = circle(Radius);
+    
+                lblResult.Text = "พื้นที่วงกลม: " + area.ToString("0.00");
+
+                txtRaduis.Focus();
+                txtRaduis.SelectAll();
+            }
+
+        public double circle(double radius)
+            {
+                return Math.PI * Math.Pow(radius, 2);
+            }
+
+
+        public void tree2()//สามเหลี่ยม
+        {
             if (!double.TryParse(txtHeitght.Text, out double Height))
             {
                 MessageBox.Show("กรอกเป็นตัวเลขเท่านั้น", "Error");
@@ -63,28 +81,42 @@ namespace WinForms.CalulateArea
                 return;
             }
 
-            double a = 0.5 * Width * Height;
-            lblResult.Text = "พื้นที่: " + a.ToString("0.00");
+            double area = tree3(Width, Height);
+            lblResult.Text = "พื้นที่: " + area.ToString("0.00");
 
             txtHeitght.Focus();
             txtWidth.SelectAll();
         }
 
-        private void btnHexagonArea_Click(object sender, EventArgs e)
+        public double tree3(double width, double height)
         {
-            if (!double.TryParse(txtHexagonWidth.Text, out double lenght))
+            
+            return 0.5 * width * height;
+        }
+        public void displayHexagon()//หกเหลี่ยม
+        {
+            
+            if (!double.TryParse(txtHexagonWidth.Text, out double length))
             {
                 MessageBox.Show("กรุณากรอกตัวเลขเท่านั้น!", "Error");
-                txtHexagonWidth.Focus();
-                txtHexagonWidth.SelectAll();
+                txtHexagonWidth.Focus();       
+                txtHexagonWidth.SelectAll(); 
                 return;
             }
-            
-            double x = (3 * Math.Sqrt(3) / 2) * lenght * lenght;
 
-            lblResult.Text = "พื้นที่: " + x.ToString("0.00");
+            double area = Hexagon(length);
+
+            lblResult.Text = "พื้นที่: " + area.ToString("0.00");
+
             txtHexagonWidth.Focus();
             txtHexagonWidth.SelectAll();
         }
+
+        public double Hexagon(double length)
+        {
+            
+            return (3 * Math.Sqrt(3) / 2) * Math.Pow(length, 2);
+        }
+
     }
 }
